@@ -2,6 +2,10 @@
 
 #include "BT_Game.h"
 #include "TankPlayerController.h"
+#include "Classes/GameFramework/Actor.h"
+#include "Runtime/Engine/Classes/Engine/World.h"
+#include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
+#include "Runtime/Engine/Classes/Components/PrimitiveComponent.h"
 #define OUT
 
 void ATankPlayerController::BeginPlay()
@@ -39,12 +43,15 @@ void ATankPlayerController::AimTowardsCrosshair()
 bool ATankPlayerController::GetSightRayHitLocation(OUT FVector& HitLocation) const
 {
 	int32 ViewportSizeX, ViewportSizeY;
-	FVector CameraWorldLocation, LookDirection;
+	FVector CameraWorldLocation, LookDirection;	
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 	auto ScreenLocation = FVector2D(ViewportSizeX*CrossHairXLocation, ViewportSizeY*CrossHairYLocation);
 if(GetLookDirection(ScreenLocation, LookDirection))
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *LookDirection.ToString());	
+	if (GetLookVectorHitLocation(LookDirection, OUT HitLocation))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *HitLocation.ToString())
+	}
 }
 return true;
 }
@@ -58,6 +65,32 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 		CameraWorldLocation,
 		LookDirection
 	);
+}
+
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, OUT FVector& HitLocation) const
+{
+	FHitResult HitResult;
+	auto StartLocation = PlayerCameraManager->GetCameraLocation();
+	auto EndLocation = StartLocation + LookDirection*LineTraceRange;
+	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
+	if (
+		GetWorld()->LineTraceSingleByChannel(
+			HitResult,
+			StartLocation,
+			EndLocation,
+			ECollisionChannel::ECC_Visibility,
+			TraceParameters,
+			FCollisionResponseParams()
+		)
+	)
+	{
+		HitLocation = HitResult.Location;
+	}	
+	else
+	{
+		HitLocation = FVector(0, 0, 0);
+	}
+	return HitResult.IsValidBlockingHit();
 }
 
 

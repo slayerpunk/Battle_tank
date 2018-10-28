@@ -29,4 +29,6 @@ private:
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(FVector&) const;
 	bool GetLookDirection(FVector2D, FVector&) const;
+	bool GetLookVectorHitLocation(FVector, FVector&) const;
+	float LineTraceRange = 1000000.0f;
 };
