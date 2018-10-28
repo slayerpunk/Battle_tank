@@ -28,5 +28,5 @@ private:
 	virtual void Tick(float) override;
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(FVector&) const;
-	float Reach = 1000000.0f;
+	bool GetLookDirection(FVector2D, FVector&) const;
 };
