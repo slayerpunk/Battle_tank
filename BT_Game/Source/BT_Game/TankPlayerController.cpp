@@ -2,6 +2,7 @@
 
 #include "BT_Game.h"
 #include "TankPlayerController.h"
+#define OUT
 
 void ATankPlayerController::BeginPlay()
 {
@@ -22,7 +23,26 @@ void ATankPlayerController::BeginPlay()
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("One more tick"));
+	AimTowardsCrosshair();
+}
+
+void ATankPlayerController::AimTowardsCrosshair()
+{
+	FVector HitLocation;
+	if (GetSightRayHitLocation(HitLocation))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("HitLocation is: %s"), *HitLocation.ToString())
+	}
+
+}
+
+bool ATankPlayerController::GetSightRayHitLocation(OUT FVector& HitLocation) const
+{
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	auto ScreenResolution = FVector2D(ViewportSizeX*CrossHairXLocation, ViewportSizeY*CrossHairYLocation);
+
+	return true;
 }
 
 
