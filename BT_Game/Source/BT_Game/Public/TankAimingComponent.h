@@ -2,9 +2,9 @@
 
 #pragma once
 
+
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
-
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BT_GAME_API UTankAimingComponent : public UActorComponent
@@ -21,7 +21,7 @@ public:
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
-	void AimAt(FVector HitLocation);
+	void AimAt(FVector HitLocation, float LaunchSpeed);
 	
 	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 
