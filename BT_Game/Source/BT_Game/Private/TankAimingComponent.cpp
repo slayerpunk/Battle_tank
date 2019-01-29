@@ -35,28 +35,34 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) { return; }
 
+	if (!Barrel) { return; }
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
-	if (UGameplayStatics::SuggestProjectileVelocity
-		(
-			this,
-			OutLaunchVelocity,
-			StartLocation,
-			HitLocation,
-			LaunchSpeed,
-			false,
-			0.0f,
-			0.0f,
-			ESuggestProjVelocityTraceOption::DoNotTrace
-		)
-	)
+	bool bHaveAimAt = UGameplayStatics::SuggestProjectileVelocity
+	(
+		this,
+		OutLaunchVelocity,
+		StartLocation,
+		HitLocation,
+		LaunchSpeed,
+		false,
+		0.0f,
+		0.0f,
+		ESuggestProjVelocityTraceOption::DoNotTrace
+	);
+	if(bHaveAimAt)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		auto TankName = GetOwner()->GetName();
 		auto BarrelLocation = Barrel->GetComponentLocation();
 		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *TankName,*AimDirection.ToString());
+
+		MoveBarrelTowards(AimDirection);
+		//GetOldLocation
+		//GetNewLocation
+		//find them vector
+		//find new position for barrel socket 
 	}
 }
 
@@ -65,3 +71,10 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet
 	Barrel = BarrelToSet;
 }
 
+void  UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+{
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DifferenceRotator = AimAsRotator - BarrelRotator;
+	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator aiming at %s"), *DifferenceRotator.ToString());
+}
