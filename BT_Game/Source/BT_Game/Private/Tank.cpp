@@ -3,9 +3,9 @@
 #include "BT_Game.h"
 #include "Runtime/CoreUObject/Public/UObject/UObjectBaseUtility.h"
 #include "Tank.h"
+#include "TankBarrel.h"
 
-
-void ATank::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }
