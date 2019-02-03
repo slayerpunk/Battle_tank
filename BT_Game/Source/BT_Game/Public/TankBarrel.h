@@ -14,8 +14,8 @@ class BT_GAME_API UTankBarrel : public UStaticMeshComponent
 	GENERATED_BODY()
 	
 public:
-	//Max Speed Elevation +-1 degree per second
-	void Elevate(float RelativeSpeed);
+
+	void Elevate(float DegreesPerSecond);
 	
 private:
 
