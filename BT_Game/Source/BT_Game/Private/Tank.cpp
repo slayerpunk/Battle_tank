@@ -3,6 +3,7 @@
 #include "BT_Game.h"
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Tank.h"
 #include "Runtime/CoreUObject/Public/UObject/UObjectBaseUtility.h"
 
@@ -10,6 +11,11 @@
 void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+}
+
+void ATank::SetTurretReference(UTankTurret * TurretToSet)
+{
+	TankAimingComponent->SetTurretReference(TurretToSet);
 }
 
 // Sets default values

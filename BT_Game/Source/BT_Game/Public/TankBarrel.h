@@ -8,7 +8,7 @@
 /**
  * 
  */
-UCLASS(meta = (BlueprintSpawnableComponent), hideCategories = ("Tags"))
+UCLASS(meta = (BlueprintSpawnableComponent))
 class BT_GAME_API UTankBarrel : public UStaticMeshComponent
 {
 	GENERATED_BODY()
