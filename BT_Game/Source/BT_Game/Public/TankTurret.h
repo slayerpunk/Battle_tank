@@ -19,7 +19,7 @@ public:
 private:
 
 	UPROPERTY(EditAnywhere, Category = Setup)
-		float MaxRotationSpeed;
+	float MaxDegreesPerSecond;
 	
 	
 };
