@@ -17,12 +17,14 @@ class BT_GAME_API ATankPlayerController : public APlayerController
 	
 private:
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairYLocation = 0.33333f;
-
+	
+	UPROPERTY(EditDefaultsOnly)
+	float LineTraceRange = 1000000.0f;
 	ATank* GetControlledTank() const;	
 	
 	virtual void BeginPlay() override;
@@ -31,5 +33,5 @@ private:
 	bool GetSightRayHitLocation(FVector&) const;
 	bool GetLookDirection(FVector2D, FVector&) const;
 	bool GetLookVectorHitLocation(FVector, FVector&) const;
-	float LineTraceRange = 1000000.0f;
+	
 };
