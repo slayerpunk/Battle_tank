@@ -50,4 +50,8 @@ private:
 	TSubclassOf<AProjectile> Projectile_Blueprint;
 
 	UTankBarrel* Barrel = nullptr;
+
+	float ReloadTime = 3;
+
+	float FireTime = 0;
 };
