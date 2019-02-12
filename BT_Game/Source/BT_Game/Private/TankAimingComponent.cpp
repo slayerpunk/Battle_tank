@@ -37,8 +37,7 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
-{
-	
+{	
 	if (!Barrel) { return; }
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -61,21 +60,15 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		auto BarrelLocation = Barrel->GetComponentLocation();
 		MoveBarrelTowards(AimDirection);
 	}
-	else
-	{
-		//No aim solution found
-	}
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
-	
 	Barrel = BarrelToSet;
 }
 
 void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
-{
-	
+{	
 	Turret = TurretToSet;
 }
 
