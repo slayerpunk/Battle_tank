@@ -3,6 +3,7 @@
 #include "BT_Game.h"
 #include "TankTrack.h"
 #include "TankMovementComponent.h"
+#include "Runtime/Core/Public/Math/Vector.h"
 
 void UTankMovementComponent::Initialise(UTankTrack * SetToLeftTrack, UTankTrack * SetToRightTrack)
 {
@@ -26,7 +27,11 @@ void UTankMovementComponent::IntendRotateRight(float Throw)
 
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Tank moves to %f, %f, %f"), MoveVelocity.X, MoveVelocity.Y, MoveVelocity.Z);
+	auto ForwardVector = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+	auto ForwardThrow = FVector::DotProduct(ForwardVector, AIForwardIntention);
+	IntendMoveForward(ForwardThrow);
+//	UE_LOG(LogTemp, Warning, TEXT("Tank moves to %f, %f, %f"), MoveVelocity.X, MoveVelocity.Y, MoveVelocity.Z);
 }
 
 
