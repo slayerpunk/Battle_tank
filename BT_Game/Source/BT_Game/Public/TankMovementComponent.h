@@ -7,7 +7,7 @@
 
 class UTankTrack;
 /**
- * 
+ *  Responsible for driving the tank tracks
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BT_GAME_API UTankMovementComponent : public UNavMovementComponent
@@ -16,18 +16,19 @@ class BT_GAME_API UTankMovementComponent : public UNavMovementComponent
 	
 public:
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankTrack* SetToLeftTrack, UTankTrack* SetToRightTrack);
 	
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Input")
 	void IntendMoveForward(float Throw);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Input")
 	void IntendRotateRight(float Throw);
-
-	//TODO check best protection
-	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+		
 private:
 	UTankTrack* LeftTrack;
 	UTankTrack* RightTrack;
+
+	//Called from the pathfinding logic by the AI controller
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 };

@@ -11,6 +11,16 @@ void UTankMovementComponent::Initialise(UTankTrack * SetToLeftTrack, UTankTrack 
 	RightTrack = SetToRightTrack;
 }
 
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+	auto ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	IntendMoveForward(ForwardThrow);
+	auto RightThrow = FVector::CrossProduct(AIForwardIntention, TankForward);
+	IntendRotateRight(RightThrow.Z);
+}
+
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
 	if (!RightTrack || !LeftTrack) { return; }
@@ -24,14 +34,3 @@ void UTankMovementComponent::IntendRotateRight(float Throw)
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 }
-
-void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
-{
-	auto ForwardVector = GetOwner()->GetActorForwardVector().GetSafeNormal();
-	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
-	auto ForwardThrow = FVector::DotProduct(ForwardVector, AIForwardIntention);
-	IntendMoveForward(ForwardThrow);
-//	UE_LOG(LogTemp, Warning, TEXT("Tank moves to %f, %f, %f"), MoveVelocity.X, MoveVelocity.Y, MoveVelocity.Z);
-}
-
-
