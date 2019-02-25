@@ -35,6 +35,7 @@ public:
 	//void UTankMovementComponent::IntendMoveForward(float Throw);
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 	UPROPERTY(BlueprintReadOnly, Category = Movement)
 	UTankMovementComponent* TankMovementComponent = nullptr;
