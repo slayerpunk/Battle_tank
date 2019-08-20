@@ -9,22 +9,12 @@
 #include "Tank.h"
 #include "Runtime/CoreUObject/Public/UObject/UObjectBaseUtility.h"
 
-/*
-void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
-{
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-	Barrel = BarrelToSet;
-}
 
-void ATank::SetTurretReference(UTankTurret * TurretToSet)
-{
-	TankAimingComponent->SetTurretReference(TurretToSet);
-}
-*/
 void ATank::Fire()
 {
+	if (!ensure(Barrel)) { return; }
 	bool isReloaded = (FPlatformTime::Seconds() - FireTime) > ReloadTime;
-	if (Barrel && isReloaded) {
+	if (isReloaded) {
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			Projectile_Blueprint,
 			Barrel->GetSocketLocation(FName("Projectile")),
@@ -36,8 +26,8 @@ void ATank::Fire()
 }
 
 void ATank::BeginPlay()
-
 {
+	Super::BeginPlay();
 	auto TankName = GetName();
 	UE_LOG(LogTemp, Warning, TEXT("%s DONKEY: Begin play C++"), *TankName)
 }
@@ -55,7 +45,7 @@ ATank::ATank()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure (TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 	
 }
