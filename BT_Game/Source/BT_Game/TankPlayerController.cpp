@@ -2,7 +2,6 @@
 
 
 #include "BT_Game.h"
-#include "Tank.h"
 #include "TankPlayerController.h"
 #include "Classes/GameFramework/Actor.h"
 #include "TankAimingComponent.h"
@@ -15,19 +14,8 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	/*
-	ATank* PlayerControlledTank = GetControlledTank();
-	 
-	if (PlayerControlledTank == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("PlayerController is not possessed a tank"));
-	}
-	else
-	{		
-		UE_LOG(LogTemp, Warning, TEXT("Possessing Tank is %s"), *PlayerControlledTank->GetName());
-	}
-	*/
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	
 	FoundAimingComponent(AimingComponent);
@@ -42,10 +30,13 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
+
 	FVector HitLocation;
 	if (GetSightRayHitLocation(HitLocation))
 	{ 
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 	}
 
 }
@@ -101,11 +92,5 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, OUT 
 		HitLocation = FVector(0, 0, 0);
 	}
 	return HitResult.IsValidBlockingHit();
-}
-
-
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
 }
 

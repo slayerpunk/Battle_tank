@@ -36,7 +36,7 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 	//TODO Should we use the tick?
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation)
 {	
 	if (!ensure(Barrel)) { return; }
 	FVector OutLaunchVelocity;
