@@ -5,7 +5,6 @@
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "Projectile.h"
-#include "TankMovementComponent.h"
 #include "Tank.h"
 #include "Runtime/CoreUObject/Public/UObject/UObjectBaseUtility.h"
 
@@ -28,8 +27,8 @@ void ATank::Fire()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	auto TankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s DONKEY: Begin play C++"), *TankName)
+
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 // Sets default values
@@ -37,8 +36,6 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	auto TankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s DONKEY: Creating Tank C++"), *TankName)
 }
 
 

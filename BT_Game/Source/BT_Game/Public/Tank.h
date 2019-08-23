@@ -7,7 +7,6 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-class UTankMovementComponent;
 class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
@@ -28,8 +27,6 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
-	UPROPERTY(BlueprintReadOnly, Category = "Movement")
-	UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:
 	// Sets default values for this pawn's properties
@@ -44,13 +41,8 @@ private:
 	float LaunchSpeed = 4000.0f; 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTime = 3;
-
-
-
-
-	UTankBarrel* Barrel = nullptr;
-
 	
-
+	UTankBarrel* Barrel = nullptr;
+	 
 	float FireTime = 0;
 };
