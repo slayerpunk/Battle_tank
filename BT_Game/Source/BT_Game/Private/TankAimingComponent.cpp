@@ -15,7 +15,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
 }
@@ -35,36 +35,28 @@ void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * T
 	Barrel = BarrelToSet;
 }
 
-// Called every frame
-// void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
-// {
-// 	//Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-// 	UE_LOG(LogTemp, Warning, TEXT("Time After Previous Shot = "))
-// 	//TODO Should we use the tick?
-// 	if((FPlatformTime::Seconds() - FireTime) < ReloadTime)
-// 	{
-// 		FiringStatus = EFiringStatus::Reloading;
-// 	}
-// 	else if (IsBarrelMoving())
-// 	{
-// 		FiringStatus = EFiringStatus::Aiming;
-// 	}
-// 	else
-// 	{
-// 		FiringStatus = EFiringStatus::Locked;
-// 	}
-// }
+//Called every frame
+void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
+{
+
+	if((FPlatformTime::Seconds() - FireTime) < ReloadTime)
+	{
+		FiringStatus = EFiringStatus::Reloading;
+	}
+	else if (IsBarrelMoving())
+	{
+		FiringStatus = EFiringStatus::Aiming;
+	}
+	else
+	{
+		FiringStatus = EFiringStatus::Locked;
+	}
+}
 
 bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!Barrel) { return false; }	
-	return !AimDirection.Equals(Barrel->GetForwardVector(), 1.0f);
-}
-
-
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Begin Play Platform time = %f"), FPlatformTime::Seconds())
+	return !AimDirection.Equals(Barrel->GetForwardVector(), 0.01f);
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
