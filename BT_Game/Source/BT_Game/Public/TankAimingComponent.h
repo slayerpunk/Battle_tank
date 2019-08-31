@@ -46,14 +46,13 @@ public:
 
 	EFiringStatus GetFiringStatus() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetRoundsLeft() const;
 protected: 
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringStatus = EFiringStatus::Reloading;
-
-	UPROPERTY(BlueprintReadOnly, Category = "State")
-	int Ammo = 3;
-
+	
 private:
 	UTankBarrel* Barrel = nullptr;
 
@@ -76,5 +75,5 @@ private:
 
 	FVector AimDirection;
 
-
+	int RoundsLeft = 3;
 };

@@ -38,7 +38,7 @@ void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * T
 //Called every frame
 void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
-	if(Ammo <=0)
+	if(RoundsLeft <=0)
 	{
 		FiringStatus = EFiringStatus::OutOfAmmo;
 	}
@@ -60,6 +60,11 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 EFiringStatus UTankAimingComponent::GetFiringStatus() const
 {
 	return FiringStatus;
+}
+
+int UTankAimingComponent::GetRoundsLeft() const
+{
+	return RoundsLeft;
 }
 
 bool UTankAimingComponent::IsBarrelMoving()
@@ -117,7 +122,7 @@ void  UTankAimingComponent::MoveBarrelTowards(FVector tAimDirection)
 
 void UTankAimingComponent::Fire()
 {	
-		if (FiringStatus != EFiringStatus::Reloading && Ammo >0)
+	if (FiringStatus == EFiringStatus::Locked || FiringStatus == EFiringStatus::Aiming)
 	{
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(Projectile_Blueprint)) { return; }
@@ -129,7 +134,7 @@ void UTankAimingComponent::Fire()
 			);
 		Projectile->LaunchProjectile(LaunchSpeed);
 		FireTime = FPlatformTime::Seconds();
-		Ammo--;
+		RoundsLeft--;
 	}
 }
 
