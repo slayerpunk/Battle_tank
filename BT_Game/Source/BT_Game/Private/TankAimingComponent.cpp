@@ -110,7 +110,7 @@ void  UTankAimingComponent::MoveBarrelTowards(FVector tAimDirection)
 	if (DifferenceRotator.Yaw > 180)
 	{
 		DifferenceRotator.Yaw -= 360;
-	}
+	}  
 	else if (DifferenceRotator.Yaw < -180)
 	{
 		DifferenceRotator.Yaw += 360;
