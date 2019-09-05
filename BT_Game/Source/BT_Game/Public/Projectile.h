@@ -6,8 +6,6 @@
 #include "Projectile.generated.h"
 
 class UProjectileMovementComponent;
-class UParticleSystemComponent;
-class UStaticMeshComponent;
 
 UCLASS()
 class BT_GAME_API AProjectile : public AActor
@@ -21,17 +19,22 @@ public:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+/*	virtual void Tick(float DeltaSeconds) override;*/
 
 	void LaunchProjectile(float Speed);
 
 private:
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 	
+<<<<<<< HEAD
+=======
 	UPROPERTY(VisibleAnywhere, Category = "Setup")
 	UStaticMeshComponent* CollisionMesh = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Setup")
 	UParticleSystemComponent* LaunchBlast = nullptr;
+
+// 	UPROPERTY(VisibleAnywhere, Category = "Setup")
+// 	UParticleSystemComponent* ImpactBlast = nullptr;
+>>>>>>> parent of 3a55fcb... Revert "BT 60 - Particle System 3"
 };

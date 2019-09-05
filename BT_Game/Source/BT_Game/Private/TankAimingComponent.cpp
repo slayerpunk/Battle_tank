@@ -62,7 +62,7 @@ EFiringStatus UTankAimingComponent::GetFiringStatus() const
 	return FiringStatus;
 }
 
-int32 UTankAimingComponent::GetRoundsLeft() const
+int UTankAimingComponent::GetRoundsLeft() const
 {
 	return RoundsLeft;
 }
