@@ -18,23 +18,23 @@ public:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
-/*	virtual void Tick(float DeltaSeconds) override;*/
 
 	void LaunchProjectile(float Speed);
 
 private:
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 	
-<<<<<<< HEAD
-=======
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 	UPROPERTY(VisibleAnywhere, Category = "Setup")
 	UStaticMeshComponent* CollisionMesh = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Setup")
 	UParticleSystemComponent* LaunchBlast = nullptr;
 
-// 	UPROPERTY(VisibleAnywhere, Category = "Setup")
-// 	UParticleSystemComponent* ImpactBlast = nullptr;
->>>>>>> parent of 3a55fcb... Revert "BT 60 - Particle System 3"
+	UPROPERTY(VisibleAnywhere, Category = "Setup")
+	UParticleSystemComponent* ImpactBlast = nullptr;
+
+
 };

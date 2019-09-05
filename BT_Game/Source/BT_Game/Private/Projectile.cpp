@@ -2,6 +2,7 @@
 
 #include "BT_Game.h"
 #include "Runtime/Engine/Classes/GameFramework/ProjectileMovementComponent.h"
+#include "Runtime/Engine/Classes/Engine/EngineTypes.h"
 #include "Projectile.h"
 
 
@@ -11,8 +12,7 @@ AProjectile::AProjectile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-<<<<<<< HEAD
-=======
+
 	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Projectile CollisionMesh"));
 	SetRootComponent(CollisionMesh);
 	CollisionMesh->SetNotifyRigidBodyCollision(true);
@@ -21,19 +21,21 @@ AProjectile::AProjectile()
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Projectile LaunchBlast"));
 	LaunchBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
->>>>>>> parent of 3a55fcb... Revert "BT 60 - Particle System 3"
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement Component"));
 	ProjectileMovement->bAutoActivate = false;
-// 
-// 	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Projectile LaunchBlast"));
-// 	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-// 	ImpactBlast->bAutoActivate = false;
+
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
+	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	ImpactBlast->bAutoActivate = false;
+
+
 }
 
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();	
+	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 }
 
 // void AProjectile::Tick(float DeltaSeconds)
@@ -46,4 +48,10 @@ void AProjectile::LaunchProjectile(float Speed)
 	UE_LOG(LogTemp, Warning, TEXT("%f: Tank fires"), Time);
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	ProjectileMovement->Activate();
+}
+
+void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	LaunchBlast->Deactivate();
+	ImpactBlast->Activate();
 }
