@@ -3,6 +3,7 @@
 #include "BT_Game.h"
 #include "Runtime/Engine/Classes/GameFramework/ProjectileMovementComponent.h"
 #include "Runtime/Engine/Classes/Engine/EngineTypes.h"
+#include "Runtime/Engine/Public/TimerManager.h"
 #include "Projectile.h"
 
 
@@ -39,10 +40,6 @@ void AProjectile::BeginPlay()
 	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 }
 
-// void AProjectile::Tick(float DeltaSeconds)
-// {
-// 	Super::Tick(DeltaSeconds);
-// }
 void AProjectile::LaunchProjectile(float Speed)
 {
 	auto Time = GetWorld()->GetTimeSeconds();
@@ -56,4 +53,14 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 	ExplosionForce->FireImpulse();
+
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+	FTimerHandle Timer;
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimer, DestroyDelay, false);
+}
+
+void AProjectile::OnTimer()
+{
+	Destroy();
 }
