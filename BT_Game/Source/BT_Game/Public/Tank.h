@@ -17,9 +17,8 @@ class BT_GAME_API ATank : public APawn
 
 public:
 	
-
-
-private:
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercent();
 	
 	ATank();
 
