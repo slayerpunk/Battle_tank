@@ -7,8 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-class UTankTurret;
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
 UCLASS()
 class BT_GAME_API ATank : public APawn
@@ -30,4 +29,5 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Health")
 	int32 CurrentHealth = StartingHealth;
 
+	FTankDelegate OnDeath;
 };

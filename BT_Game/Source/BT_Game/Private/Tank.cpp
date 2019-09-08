@@ -18,14 +18,9 @@
 	 int32 PointDamage = FPlatformMath::RoundToInt(DamageAmount);
 	 int32 ActualDamage = FMath::Clamp(PointDamage, 0, CurrentHealth);
 	 CurrentHealth -= ActualDamage;
-	 if (CurrentHealth > 0)
-	 {		
-		 UE_LOG(LogTemp, Warning, TEXT("%s: Take %i damage, Current health is %i"), *GetName(), ActualDamage, CurrentHealth);
-	 }
-	 else
-	 {		
-		 UE_LOG(LogTemp, Warning, TEXT("%s: Take %f damage. YOU DIED."), *GetName(), CurrentHealth);
-	 }
+
+	 if (CurrentHealth <= 0) { OnDeath.Broadcast();}
+
 	 return ActualDamage;
  }
 
@@ -33,3 +28,4 @@
  {
 	 return (float)CurrentHealth / (float)StartingHealth;
  }
+

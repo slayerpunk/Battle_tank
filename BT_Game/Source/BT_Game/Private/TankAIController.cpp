@@ -8,6 +8,7 @@
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
 #include "TankAimingComponent.h"
+#include "Tank.h"
 #include "Runtime/Engine/Classes/Components/PrimitiveComponent.h"
 
 
@@ -18,6 +19,20 @@ void ATankAIController::BeginPlay()
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 }
 
+void ATankAIController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::PossessedTankDeath);
+	}	
+}
+void ATankAIController::PossessedTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Received"));
+}
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
