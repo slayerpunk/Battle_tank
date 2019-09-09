@@ -5,6 +5,7 @@
 #include "TankPlayerController.h"
 #include "Classes/GameFramework/Actor.h"
 #include "TankAimingComponent.h"
+#include "Tank.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
 #include "Runtime/Engine/Classes/Components/PrimitiveComponent.h"
@@ -40,6 +41,22 @@ void ATankPlayerController::AimTowardsCrosshair()
 		AimingComponent->AimAt(HitLocation);
 	}
 
+}
+
+void ATankPlayerController::PossessedTankDeath()
+{
+	GetWorld()->GetFirstPlayerController()->StartSpectatingOnly();
+}
+
+void ATankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::PossessedTankDeath);
+	}
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(OUT FVector& HitLocation) const

@@ -30,4 +30,8 @@ public:
 	int32 CurrentHealth = StartingHealth;
 
 	FTankDelegate OnDeath;
+
+private:
+
+	virtual void BeginPlay() override;
 };

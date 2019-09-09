@@ -21,6 +21,17 @@ protected:
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 private:
 
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float) override;
+
+	void AimTowardsCrosshair();
+
+	UFUNCTION()
+	void PossessedTankDeath();
+
+	virtual void SetPawn(APawn* InPawn) override;
+
 	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5f;
 
@@ -29,11 +40,7 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000.0f;
-
-	
-	virtual void BeginPlay() override;
-	virtual void Tick(float) override;
-	void AimTowardsCrosshair();
+		
 	bool GetSightRayHitLocation(FVector&) const;
 	bool GetLookDirection(FVector2D, FVector&) const;
 	bool GetLookVectorHitLocation(FVector, FVector&) const;
