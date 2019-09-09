@@ -45,7 +45,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 void ATankPlayerController::PossessedTankDeath()
 {
-	GetWorld()->GetFirstPlayerController()->StartSpectatingOnly();
+	StartSpectatingOnly();
 }
 
 void ATankPlayerController::SetPawn(APawn * InPawn)
